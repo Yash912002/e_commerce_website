@@ -17,6 +17,7 @@ export type productsProps = {
 		count: number
 	};
 	description: string
+	quantity?: number;
 }
 
 export const Products = () => {
