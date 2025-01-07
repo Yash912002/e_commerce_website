@@ -1,5 +1,17 @@
+import { productsProps } from "@/app/components/Products";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
+
+type TransformedItemProps = {
+  price_data: {
+    currency: string;
+    product_data: {
+      name: string;
+    };
+    unit_amount: number;
+  };
+  quantity: number;
+};
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
   apiVersion: "2024-12-18.acacia",
@@ -7,9 +19,9 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
 
 export async function POST(req: Request) {
   try {
-    const { items } = await req.json();
+    const { items } :  { items: productsProps[] } = await req.json();
 
-    const transformedItems = items.map((item: any) => ({
+    const transformedItems: TransformedItemProps[] = items.map((item: any) => ({
       price_data: {
         currency: "usd",
         product_data: {
