@@ -63,10 +63,10 @@ export const Products = () => {
 		<div className="min-h-screen bg-gray-100 p-6">
 
 			{/* Navbar - Pass Search Handler */}
-			<NavBar onSearch={handleSearch} />
+			<NavBar onSearch={handleSearch} searchTerm={searchTerm} />
 
 			{/* Filters Component */}
-			<Filters onFilterChange={handleFilterChange} />
+			<Filters selectedCategory={selectedCategory} onFilterChange={handleFilterChange} />
 
 			{/* Products Component */}
 			<div className="max-w-5xl mx-auto p-5">
