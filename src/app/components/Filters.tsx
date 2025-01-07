@@ -1,10 +1,12 @@
 "use client";
-
 import { useState } from "react";
 
-export default function Filters(
-  { onFilterChange }: { onFilterChange: (type: string, value: string) => void }
-) {
+type filterProps = {
+  selectedCategory: string
+  onFilterChange: (type: string, value: string) => void
+}
+
+export default function Filters({ onFilterChange, selectedCategory }: filterProps) {
   const [price, setPrice] = useState("");
   const [rating, setRating] = useState("");
 
@@ -60,6 +62,7 @@ export default function Filters(
       <div className="relative w-full md:w-auto">
         <select
           onChange={handleCategoryChange}
+          value={selectedCategory}
           className="w-full md:w-auto bg-white border border-gray-300 rounded-md py-2 px-4 pr-8 text-sm font-semibold cursor-pointer shadow-sm hover:shadow-md focus:outline-none"
         >
           {/* Displaying all the available category options */}
