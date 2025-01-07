@@ -1,6 +1,6 @@
 "use client";
 import { useCart } from "../context/CartHook";
-import { CartState } from "../context/CartProvider";
+import { CartItem } from "../context/CartProvider";
 import CheckoutButton from "./Checkout";
 
 const CartPage = () => {
@@ -8,7 +8,7 @@ const CartPage = () => {
 	const { state, dispatch } = useCart();
 
 	// items :- Array of objects containing product information
-	const { items }: CartState = state;
+	const { items }: { items: CartItem[] } = state;
 
 	const totalPrice = items.reduce(
 		(acc, item) => acc + item.price * item.quantity,
