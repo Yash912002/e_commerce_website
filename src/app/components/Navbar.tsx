@@ -1,23 +1,20 @@
 "use client";
 import Link from "next/link";
 import { useCart } from "../context/CartHook";
-import { CartState } from "../context/CartProvider";
-import { useState } from "react";
+import { CartItem, CartState } from "../context/CartProvider";
 
 interface NavBarProps {
+	searchTerm: string
 	onSearch: (term: string) => void;
 }
 
-export const NavBar = ({ onSearch }: NavBarProps) => {
-	// @ts-ignore
-	const { state } = useCart();
-	const { items }: CartState = state;
+export const NavBar = ({ searchTerm, onSearch }: NavBarProps) => {
+	const { state }: { state: CartState } = useCart();
 
-	const [searchTerm, setSearchTerm] = useState<string>("");
+	const { items }: { items: CartItem[] } = state;
 
 	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const term = e.target.value;
-		setSearchTerm(term);
 		onSearch(term);
 	};
 
