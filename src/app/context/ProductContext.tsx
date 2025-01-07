@@ -39,20 +39,17 @@ export const ProductProvider = ({ children }: { children: ReactNode }) => {
 
         setProducts(result);
         setFilteredProducts(result);
-      } catch (error: any) {
-        console.log("Failed to fetch the products ", error.message);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.log("Failed to fetch the products: ", error.message);
+        } else {
+          console.log("An unknown error occurred.");
+        }
       }
     }
 
     fetchProducts();
   }, []);
-
-  const filterProducts = (searchTerm: string) => {
-    const filtered = products.filter((product) =>
-      product.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredProducts(filtered);
-  };
 
   return (
     <ProductContext.Provider value={{ products, filteredProducts, setFilteredProducts }}>
