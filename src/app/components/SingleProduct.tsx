@@ -1,4 +1,3 @@
-// @ts-nocheck
 "use client";
 import { useEffect, useState } from "react";
 import { productsProps } from "./Products";
@@ -6,9 +5,10 @@ import { useCart } from "../context/CartHook";
 import { QuantityControl } from "./QuantityControl";
 import PriceButton from "./PriceButton";
 
-const SingleProduct = ({ id }: { id: string }) => {
+const SingleProduct = ({ id }: { id: number }) => {
 
   const [singleProduct, setSingleProduct] = useState<productsProps | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   // Access cart state and dispatch
   const { state, dispatch } = useCart();
@@ -23,17 +23,38 @@ const SingleProduct = ({ id }: { id: string }) => {
     // find the required product by comparing id 
     if (storedProducts && storedProducts !== "null") {
       const parsedRes: productsProps[] = JSON.parse(storedProducts);
-      const finalRes = parsedRes.find((product) => product.id.toString() === id);
+      const finalRes = parsedRes.find((product) => product.id === id);
 
       // If we got the product,update the state
       if (finalRes) {
         setSingleProduct(finalRes);
       }
     }
+
+    setLoading(false); // Stop loading after fetching
   }, [id])
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-lg font-semibold text-gray-600">
+          Loading product details...
+        </p>
+      </div>
+    );
+  }
+
+  if (!singleProduct) {
+    // throw new Error("")
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-lg font-semibold text-gray-600">Loading product details...</p>
+      </div>
+    );
+  }
+
   // Check if item is already in the cart
-  const cartItem = state.items.find((item) => item.id === id);
+  const cartItem = state.items.find((item) => item.id === Number(id));
 
   function incrementQuantity() {
     dispatch({
@@ -71,21 +92,15 @@ const SingleProduct = ({ id }: { id: string }) => {
       type: "ADD_ITEM",
       payload: {
         id,
-        title: singleProduct?.title,
-        price: singleProduct?.price,
+        title: singleProduct!.title,
+        price: singleProduct!.price,
         quantity: 1,
-        image: singleProduct?.image,
+        image: singleProduct!.image,
       },
     });
   }
 
-  if (!singleProduct) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-lg font-semibold text-gray-600">Loading product details...</p>
-      </div>
-    );
-  }
+
 
   return (
     <div className="min-h-screen bg-white p-6">
