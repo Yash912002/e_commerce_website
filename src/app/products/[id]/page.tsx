@@ -8,7 +8,7 @@ export default async function page(
 
   return (
     <div>
-      <SingleProduct id={id} />
+      <SingleProduct id={Number(id)} />
     </div>
   )
 }
