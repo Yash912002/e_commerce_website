@@ -4,7 +4,6 @@ import { CartItem } from "../context/CartProvider";
 import CheckoutButton from "./Checkout";
 
 const CartPage = () => {
-	// @ts-ignore
 	const { state, dispatch } = useCart();
 
 	// items :- Array of objects containing product information
