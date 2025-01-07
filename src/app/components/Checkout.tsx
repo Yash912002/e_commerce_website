@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
+import { CartItem } from "../context/CartProvider";
 
 // Load the publishable key
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
-export default function CheckoutButton({ items }: { items: any[] }) {
+export default function CheckoutButton({ items }: { items: CartItem[] }) {
 	const [loading, setLoading] = useState(false);
 
 	const handleCheckout = async () => {
